@@ -16,11 +16,13 @@ function App() {
       .then((response) => {
         // agregamos un valor por defecto cuando para data cuando venga undefined (seguridad) (edge cases)
         const { data = [] } = response;
-        const gifs = data.map(
-          (image) => image.images.fixed_height_downsampled.url,
-        );
-        console.log(gifs);
-        setGifs(gifs);
+        if (Array.isArray(data)) {
+          const gifs = data.map(
+            (image) => image.images.fixed_height_downsampled.url,
+          );
+          console.log(gifs);
+          setGifs(gifs);
+        }
       });
     // catch
   }, []);
