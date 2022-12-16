@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from "react";
-import './App.css';
+import "./App.css";
 
-const GIFS = [
-  "https://media3.giphy.com/media/EatwJZRUIv41G/giphy.gif?cid=ade247d8pqnen0j7wwy847xq7l0p8gc6a5i1h91uxdoijfka&rid=giphy.gif&ct=g",
-  "https://media3.giphy.com/media/EPcvhM28ER9XW/giphy.gif?cid=ade247d8pqnen0j7wwy847xq7l0p8gc6a5i1h91uxdoijfka&rid=giphy.gif&ct=g"
-]
-
-const DIFFERENT_GIFTS = [
-  "https://media4.giphy.com/media/cnbsOTkEJnq0/giphy.gif?cid=ecf05e478w1ki0s965jz0n7jmdtwp3bkkdrvm9qab6xertbv&rid=giphy.gif&ct=g",
-]
+const apiURL =
+  "https://api.giphy.com/v1/gifs/search?api_key=bJGTQgB4JGsugesXlHI0749r6yO2gwGX&q=panda&limit=12&offset=0&rating=g&lang=en";
 
 function App() {
-  const [gifs, setGifs] = useState(GIFS)
+  const [gifs, setGifs] = useState([]);
 
-  // Recibe dos parametros la funcion a ejecutar y las dependencias que tiene este efecto
-  // en este caso un array vacio que indica cuantas veces se va a renderizar evitando loop
-  // que cada vez que se actualize el estado ejecute el efecto y el efecto ejecuta una actualizacion del estado
-  useEffect(function () {
-    console.log(' efecto ejecutado');
-    setGifs(DIFFERENT_GIFTS)
-  },[])
+  useEffect(() => {
+    console.log(" efecto ejecutado update gifs");
+    // Usa lo que te ofrece la plataforma aveces no vine bien usar axios
+    // En caso que no este soportado fetch() usa unfetch() pesa 500bytes
+    fetch(apiURL)
+      .then((response) => response.json())
+      .then((response) => {
+        // agregamos un valor por defecto cuando para data cuando venga undefined (seguridad) (edge cases)
+        const { data = [] } = response;
+        const gifs = data.map(
+          (image) => image.images.fixed_height_downsampled.url,
+        );
+        console.log(gifs);
+        setGifs(gifs);
+      });
+    // catch
+  }, []);
 
   return (
     <div className="App">
       <section className="App-content">
-        {
-          gifs.map(singleGif => <img src={singleGif}/> )
-        }
+        {gifs.map((singleGif) => (
+          <img src={singleGif} />
+        ))}
         {/* Asi escuchamos eventos */}
-      <button onClick={() => setGifs(DIFFERENT_GIFTS)}>
+        {/* <button onClick={() => setGifs(DIFFERENT_GIFTS)}>
         Cambiar giff
-      </button>
+      </button> */}
         {/* <img src={gifs} alt="" srcset="" /> */}
       </section>
     </div>
