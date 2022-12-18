@@ -1,6 +1,6 @@
 // seccionamos un poco para acortar la apiURL
 const apiKey = "bJGTQgB4JGsugesXlHI0749r6yO2gwGX";
-const limit = 50;
+const limit = 9;
 
 // Asignamos parametro por defecto a keyword por si no llega nada o un objeto vacio
 export default function getGifs({ keyword = "morty" } = {}) {

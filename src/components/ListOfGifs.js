@@ -10,8 +10,8 @@ export default function ListOfGifs({ keywords }) {
   }, []);
 
   return gifs.map(({ id, title, url }) => (
-    // Solo pasamos lo que necesitamos ademas que vemos expecificamente que estamos pasando
-    <Gifs id={id} title={url} url={url} />
-    // podriamos optar por pasarle todas las propiedades {...gifs} en caso que necesitemos todos lo datos eh
+    // Warning: Each child in a list should have a unique "key" prop
+    // usar un id unico ayuda a optimizar el renderizado mejor ya que lo podra identificar
+    <Gifs key={id} id={id} title={url} url={url} />
   ));
 }
