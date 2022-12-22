@@ -4,14 +4,21 @@ import getGifs from "../services/getGifs";
 
 export default function ListOfGifs({ params }) {
   const { keyword } = params;
+  const [loading, setLoading] = useState([]);
   const [gifs, setGifs] = useState([]);
 
   useEffect(
     function () {
-      getGifs({ keyword }).then((gifs) => setGifs(gifs));
+      setLoading(true);
+      getGifs({ keyword }).then((gifs) => {
+        setGifs(gifs);
+        setLoading(false);
+      });
     },
     [keyword],
   );
+
+  if (loading) return <i>Cargando 🥳</i>;
 
   // React no trata tan bien a los arreglos asi que lo envolvemos dentro de un div
   // ya que funciona mejor con componentes
