@@ -5,7 +5,7 @@ import "./Gifs.css";
 export default function Gifs({ id, title, url }) {
   return (
     <a href={`#${id}`} className="Gifs">
-      <h4>{title}</h4>
+      <h4>{id}</h4>
       <small>{id}</small>
       <img alt={title} src={url} />
     </a>
