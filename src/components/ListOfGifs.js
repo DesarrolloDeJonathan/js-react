@@ -10,8 +10,12 @@ export default function ListOfGifs({ params }) {
 
   useEffect(
     function () {
-      // setLoading(true);
-      setGifs({ loading: true, results: gifs.results });
+      // Para solucionarlo podriamos recuperar desde aqui el estado
+      // Al actualizar el estado podemos pasar una funcion que nos deje como parametro el estado actual
+      // De este forma solo tenemos un STATE pero trata de no sobrecargar la logica tratando de agrupar todo en un solo State
+      // Una solucion puede ser useReducer
+      setGifs((actualGifs) => ({ loading: true, results: actualGifs.results }));
+
       getGifs({ keyword }).then((gifs) => {
         setGifs({ loading: false, results: gifs });
 
@@ -20,8 +24,9 @@ export default function ListOfGifs({ params }) {
       });
     },
     // Este gifs.results lo necesitaremos como dependencia del efecto
-    // Pero al hacerlo generamos que el resultado siempre cambie y genera un bucle (se pone loco)
-    [gifs.results, keyword],
+    // Pero al hacerlo generamos que el resultado sea si mismo y siempre que cambien los resultados genera un bucle (se pone loco)
+    // En lugar de tener esto aquui gifs.results, lo pasamos arriba del estado como actualGifs.results
+    [keyword],
   );
 
   if (gifs.loading) return <i>Cargando 🥳</i>;
